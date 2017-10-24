@@ -1,0 +1,80 @@
+Opsbar Sequences
+
+ATW
+--
+10	In Progress
+20	Resume Progress
+30	Waiting for customer
+40	Waiting for support
+50	Done
+60	Reopen
+
+ITS GENERAL
+--
+10	Start Progress
+20	Resume Progress
+30	Waiting for Customer
+40	Waiting for Vendor
+50	Scheduled
+60	Closed
+70	Canceled
+80	Reopen
+
+ITS PROCURE
+--
+10	Requested
+20	Ordered
+30	Received
+40	Deployed
+50	Returned
+60	Closed
+70	Canceled
+80	Reopen
+
+ITS ON/OFFBOARDING
+--
+10	Generate checklist
+20	Start Progress
+30	Resume Progress
+40	Waiting for customer
+50	Scheduled
+60	Closed
+70	Reopen
+
+ITS LRM
+--
+10	Start Progress
+20	Stop "First Response" SLA
+30	Clone to LRM Project
+40	Pending
+50	Resume Progress
+60	Waiting for customer
+70	Waiting for vendor
+80	Scheduled
+90	Closed
+100	Clone to LRM Project
+110	Reopen
+
+FMO
+--
+10	Start Progress
+20	Resume Progress
+21	Close Request
+30	Campus
+40	Foundation
+50	WSB External
+60	Waiting for customer
+70	On Hold
+80	Escalate
+90	Reopen
+
+ITCM
+--
+10	
+20	
+30	
+40	
+50	
+60	
+70	
+80	

@@ -1,0 +1,57 @@
+ATW
+
+Issue Types
+- "Unclassified"
+- "AT" (Academic Technology)
+- "W" (Web)
+
+----------------------------------
+
+Issue Created via Customer Portal
+
+Type: 			AT or W depending on which RT entry point
+Request Type: 	this.RT
+
+----------------------------------
+
+Issue Created via JIRA
+
+Type:			AT or W
+Request Type: 	None at first, but set immediately w/ Automation
+
+----------------------------------
+
+Issue Created via Email
+
+Type:			Unclassified
+Request Type:	Unclassified (Email)
+
+----------------------------------
+
+
+
+----------------------------------
+
+
+
+
+
+Steps
+
+1. Issue created via Email.
+	Type:			Unclassified
+	Request Type: 	Unclassified (Email)
+
+2. Classify/Triage as either AT or W (Edit > [Issue Type = AT | W].
+	Type:			[AT | W]
+	Request Type:	[General AT Request | General Web Request]
+
+
+
+
+
+Notes
+
+- Customer-facing status is manually set to "Pending" for Unclassified (Email) requests. 
+	Project Settings > Request Types > Unclassified (Email) > Workflow Statuses
+

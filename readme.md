@@ -2,4 +2,4 @@ Groovy and other resources used in Information Technology Solutions' JIRA Servic
 
 Information Technology Solutions provides IT support for the Wisconsin School of Business at the University of Wisconsin-Madison.
 
-All code written by (Evan Winter)[http://evanwinter.me]
+All code written by [Evan Winter](http://evanwinter.me)

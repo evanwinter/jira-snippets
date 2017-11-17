@@ -1,3 +1,11 @@
+/*
+*	Name:		raiseOnBehalfOf.groovy
+*	Author: 	Evan Winter
+* 	
+* 	@brief Post function to add initial Reporter as Participant and set user in custom field "Primary User" to Reporter 
+*
+*/
+
 import com.atlassian.jira.component.ComponentAccessor
 import com.atlassian.jira.event.type.EventDispatchOption
 import com.atlassian.jira.issue.CustomFieldManager
@@ -15,10 +23,7 @@ def PRIMARY_USER_FIELD = "customfield_10913"
 CustomFieldManager customFieldManager = ComponentAccessor.getCustomFieldManager()
 IssueManager issueManager = ComponentAccessor.getIssueManager()
 
-MutableIssue myIssue = issue
-
-// For testing in the Script Console, hard-code an issue object.
-// MutableIssue myIssue = issueManager.getIssueObject("ATW-37")
+MutableIssue myIssue = issue // FOR TESTING IN CONSOLE -> .getIssueObject("KEY-000")
 
 // Get custom field objects.
 def requestParticipantsField = customFieldManager.getCustomFieldObject(REQUEST_PARTICIPANTS_FIELD)
@@ -36,13 +41,13 @@ ApplicationUser primaryUser = myIssue.getCustomFieldValue(primaryUserField) as A
 
 if (primaryUser) {
 	
-	// Update the Request Participants field.
+	// Add initial Reporter to Request Participants field.
 	myIssue.setCustomFieldValue(
 	    requestParticipantsField, 
 	    participants
 	)
 	
-	// Update the Reporter field.
+	// Set initial Primary User to Reporter field.
 	myIssue.setReporter(primaryUser)
 	
 	// Clear the Primary User field.

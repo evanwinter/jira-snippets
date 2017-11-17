@@ -1,3 +1,11 @@
+/*
+*   Name:       updateIssueTypeAT.groovy
+*   Author:     Evan Winter
+*   
+*   @brief Sets issue type during issue creation, based on customer input.
+*
+*/
+
 import com.atlassian.jira.component.ComponentAccessor
 import com.atlassian.jira.issue.CustomFieldManager
 import com.atlassian.jira.issue.MutableIssue
@@ -19,14 +27,21 @@ ApplicationUser loggedInUser = ComponentAccessor.getJiraAuthenticationContext().
 
 /* Determine Customer Request Type */
 def customerRequestTypeField = customFieldManager.getCustomFieldObjectByName("Customer Request Type")
+log.debug "Customer Request Type Field: " + customerRequestTypeField
 def customerRequestTypeKey = thisIssue.getCustomFieldValue(customerRequestTypeField)
+log.debug "Customer Request Type Key: " + customerRequestTypeKey
 def customerRequestType = getCustomerRequestTypeFromKey(customerRequestTypeKey)
+log.debug "Customer Request Type: " + customerRequestType
 
 /* Determine if current issue type matchings desired issue type */
 def currentIssueTypeName = thisIssue.getIssueType().getName() as String
+log.debug "Current Issue Type: " + currentIssueTypeName
 def desiredIssueTypeFieldName = getIssueTypeFieldIDFromRequestType(customerRequestType) as String
+log.debug "Desired Issue Type Field Name: " + desiredIssueTypeFieldName
 def desiredIssueTypeField = customFieldManager.getCustomFieldObject(desiredIssueTypeFieldName)
+log.debug "Desired Issue Type Field: " + desiredIssueTypeField
 def desiredIssueTypeName = thisIssue.getCustomFieldValue(desiredIssueTypeField) as String       // Got a NullPointer here. Maybe the RT IDs are different?
+log.debug "Desired Issue Type: " + desiredIssueTypeName
 def desiredIssueType = ComponentAccessor.issueTypeSchemeManager.getIssueTypesForProject(thisIssue.getProjectObject()).find {
     it.getName() == desiredIssueTypeName
 }
@@ -51,6 +66,7 @@ def getCustomerRequestTypeFromKey(key) {
     def MEDIAPRODUCTION_REQUESTTYPE_FIELD = "at/fdb2594b-e9a6-407b-bda0-277df2b7084f"
     def TRAINING_REQUESTTYPE_FIELD = "at/35e2ee3f-90eb-4617-be7b-226b7ec82738"
     def result
+    log.debug key
     switch (key) {
         case ANALYTICS_REQUESTTYPE_FIELD as String:
             result = "Analytics"
@@ -68,7 +84,7 @@ def getCustomerRequestTypeFromKey(key) {
             result = "Training"
             break
         default:
-            result = "Request Type not found."
+            log.debug "Request Type not found."
             break
     }
     log.debug "Request Type: " + result
@@ -82,6 +98,7 @@ def getIssueTypeFieldIDFromRequestType(requestType) {
     def MEDIAPRODUCTION_ISSUETYPE_FIELD = "customfield_12104"
     def TRAINING_ISSUETYPE_FIELD = "customfield_12105"
     def result
+    log.debug requestType
     switch (requestType) {
         case "Analytics":
             result = ANALYTICS_ISSUETYPE_FIELD

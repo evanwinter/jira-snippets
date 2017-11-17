@@ -15,11 +15,3 @@ CustomFieldManager customFieldManager = ComponentAccessor.getCustomFieldManager(
 def statusName = ComponentAccessor.issueLinkManager.getInwardLinks(issue.getId())[0].getSourceObject().getStatus().getName()
 
 return statusName
-
-// For LRM cloning process
-// 	When Issue Updated
-//		If LRMIssue.status = "Closed"
-//			ITSLRMIssue.update 
-// OR in post function
-//	When transition to Closed
-//		update linked issue accordingly

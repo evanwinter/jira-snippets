@@ -32,18 +32,18 @@ def fmoAdmin = userManager.getUserByName("fmoadmin")
 
 assignee = currentIssue.getAssignee()
 
-if ( assignee ) {
+if (assignee) {
 	
 	// Get the last comment entered in on the issue to a String
 	def comment = "This issue has been assigned to [~" + assignee.getUsername() + "]."
 
 	// Check if the issue exists
-	if ( currentIssue ) {
+	if (currentIssue) {
 		// Create a comment on the issue
 		try {
-			commentManager.create( currentIssue, fmoAdmin, comment, true )	
+			commentManager.create(currentIssue, fmoAdmin, comment, true)	
 		}
-		catch ( Exception e ) {
+		catch (Exception e) {
 			log.debug "Error adding comment."
 			log.debug(e)
 		}

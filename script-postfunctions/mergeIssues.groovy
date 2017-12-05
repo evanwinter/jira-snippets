@@ -76,3 +76,4 @@ try {
     log.debug "Exception: " + e
     return 'An error occured. Please contact your JIRA administrator.'
 }
+

@@ -60,6 +60,7 @@ if (currentIssueTypeName != desiredIssueTypeName) {
 
 /* Methods */
 def getCustomerRequestTypeFromKey(key) {
+    // TODO: Use map instead. {FIELD: id}
     def ANALYTICS_REQUESTTYPE_FIELD = "at/2cdf64db-3f5c-402a-91ae-28cf3b0d0a86"
     def AVSUPPORT_REQUESTTYPE_FIELD = " at/ee716c88-d729-466f-a50f-035aba1b33dd"
     def COURSEWEBSITESUPPORT_REQUESTTYPE_FIELD = "at/d0c946ed-f60c-467b-9e22-dd3330a731c2"

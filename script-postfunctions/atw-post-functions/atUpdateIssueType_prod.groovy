@@ -9,35 +9,32 @@ import com.atlassian.jira.event.type.EventDispatchOption
 import org.apache.log4j.Logger
 def log = Logger.getLogger("com.acme.XXX")
 
-/* Set up Managers */
-CustomFieldManager customFieldManager = ComponentAccessor.getCustomFieldManager()
-
+/* Establish context -- current issue and current logged in user */
 MutableIssue thisIssue = issue
 ApplicationUser loggedInUser = ComponentAccessor.getJiraAuthenticationContext().getLoggedInUser()
 
-def ANALYTICS_ISSUETYPE_FIELD = "customfield_12101"
-def analyticsField = customFieldManager.getCustomFieldObject(ANALYTICS_ISSUETYPE_FIELD)
+/* Get value of each AT Issue Type field. Only one will have a value. */
+CustomFieldManager customFieldManager = ComponentAccessor.getCustomFieldManager()
+
+def analyticsField = customFieldManager.getCustomFieldObject("customfield_12101")
 def analyticsValue = thisIssue.getCustomFieldValue(analyticsField) as String
 
-def AVSUPPORT_ISSUETYPE_FIELD = "customfield_12102"
-def avSupportField = customFieldManager.getCustomFieldObject(AVSUPPORT_ISSUETYPE_FIELD)
+def avSupportField = customFieldManager.getCustomFieldObject("customfield_12102")
 def avSupportValue = thisIssue.getCustomFieldValue(avSupportField) as String
 
-def COURSEWEBSITESUPPORT_ISSUETYPE_FIELD = "customfield_12103"
-def courseWebsiteSupportField = customFieldManager.getCustomFieldObject(COURSEWEBSITESUPPORT_ISSUETYPE_FIELD)
+def courseWebsiteSupportField = customFieldManager.getCustomFieldObject("customfield_12103")
 def courseWebsiteSupportValue = thisIssue.getCustomFieldValue(courseWebsiteSupportField) as String
 
-def MEDIAPRODUCTION_ISSUETYPE_FIELD = "customfield_12104"
-def mediaProductionField = customFieldManager.getCustomFieldObject(MEDIAPRODUCTION_ISSUETYPE_FIELD)
+def mediaProductionField = customFieldManager.getCustomFieldObject("customfield_12104")
 def mediaProductionValue = thisIssue.getCustomFieldValue(mediaProductionField) as String
 
-def TRAINING_ISSUETYPE_FIELD = "customfield_12105"
-def trainingField = customFieldManager.getCustomFieldObject(TRAINING_ISSUETYPE_FIELD)
+def trainingField = customFieldManager.getCustomFieldObject("customfield_12105")
 def trainingValue = thisIssue.getCustomFieldValue(trainingField) as String
 
 def initIssueTypeName = thisIssue.getIssueType().getName() as String
 def desiredIssueTypeName = ''
 
+/* Determine which field has a value and get the value (desired Issue Type) */
 if (analyticsValue) {
     desiredIssueTypeName = analyticsValue
     thisIssue.setCustomFieldValue(analyticsField, null)
@@ -57,6 +54,7 @@ if (analyticsValue) {
     log.debug "No match found."
 }
 
+/* Get the actual Issue Type object whose name is equal to the value in the AT Issue Type field */
 def desiredIssueType = ComponentAccessor.issueTypeSchemeManager.getIssueTypesForProject(thisIssue.getProjectObject()).find {
     it.getName() as String == desiredIssueTypeName
 }

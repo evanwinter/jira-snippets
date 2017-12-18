@@ -1,13 +1,8 @@
-////////////////////////////////////////////////////////////////////////////////
-//
-//	Name: delete-subtasks.groovy
-//
-//	Location: Workflows > ITCM Main Request Workflow > (Transition: Re-submit) && (Transition: Cancel Request) > 
-//		Add Post Function > Script Post-Function > Custom script post-function
-//
-//	Description: Deletes all sub-tasks for the current issue. 
-//
-////////////////////////////////////////////////////////////////////////////////
+/*
+*	@name 	ITCM_deleteSubtasks_prod.groovy
+*	@type 	Post function
+*	@brief 	Deletes all subtasks associated with the current issue.
+*/
 
 import com.atlassian.jira.component.ComponentAccessor
 import com.atlassian.jira.event.type.EventDispatchOption

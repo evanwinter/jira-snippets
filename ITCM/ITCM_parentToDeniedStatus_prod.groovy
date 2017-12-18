@@ -1,13 +1,10 @@
-////////////////////////////////////////////////////////////////////////////////
-//
-//  Name: deny-parent.groovy
-//
-//  Location: Workflows > ITCM Approver Feedback Workflow > Transition: Denied
-//      > Add Post Function > Script Post-Function > Custom script post-function 
-//
-//  Description: If any of an issue's sub-tasks are denied, execute the parent's "Deny" transition too.
-//
-////////////////////////////////////////////////////////////////////////////////
+/*
+*	@name 	ITCM_parentToDeniedStatus_prod.groovy
+*	@type 	Post function
+*	@brief 	If ANY of this issue's sibling subtasks are 'Denied', move its parent
+* 			issue to status 'Denied'
+*/
+
 
 import com.opensymphony.workflow.WorkflowContext
 import com.atlassian.jira.config.SubTaskManager

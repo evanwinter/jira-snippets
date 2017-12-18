@@ -1,9 +1,18 @@
+/*
+*	@name 	AT_mergeIssueIntoExisting_prod.groovy
+*	@type	Post function
+*	@brief 	Merges current issue into target issue by appending the current issue's
+*			description, comments and Reporter to the target issue's corresponding
+*			fields. The current issue's Reporter is added to the target issue as
+*			a Request Participant.
+*/
+
 import com.atlassian.jira.component.ComponentAccessor
+import java.text.SimpleDateFormat
 import com.atlassian.jira.issue.MutableIssue
 import com.atlassian.jira.user.ApplicationUser
-import com.atlassian.jira.event.type.EventDispatchOption
-import java.text.SimpleDateFormat
 import java.util.ArrayList
+import com.atlassian.jira.event.type.EventDispatchOption
 
 /* Debugging */
 import org.apache.log4j.Logger
@@ -49,7 +58,12 @@ ComponentAccessor.getCommentManager().create(thisIssue, loggedInUser, "MERGED in
 
 /* Persist changes */
 try {
-	ComponentAccessor.getIssueManager().updateIssue(loggedInUser, mainIssue, EventDispatchOption.ISSUE_UPDATED, false)
+	ComponentAccessor.getIssueManager().updateIssue(
+		loggedInUser,
+		mainIssue,
+		EventDispatchOption.ISSUE_UPDATED,
+		false
+	)
 } catch (Exception e) {
     log.debug "Exception: " + e
     return 'An error occured. Please contact your JIRA administrator.'

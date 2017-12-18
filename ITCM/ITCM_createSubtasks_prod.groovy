@@ -1,13 +1,9 @@
-////////////////////////////////////////////////////////////////////////////////
-//
-//	Name: create-subtasks.groovy	
-//
-//	Location: Workflows > ITCM Main Request Workflow > (Transition: Create) && (Transition: Re-submit) > 
-//		Add Post Function > Script Post-Function > Custom script post-function
-//
-//	Description: Creates one subtask for each user in Approver Group.
-//
-////////////////////////////////////////////////////////////////////////////////
+/*
+*	@name 	ITCM_createSubtasks_prod.groovy
+*	@type 	Post function
+*	@brief 	Creates and self-assigns a subtask for each user in the group specified by the 
+*			"Needs approval from" group picker custom field.
+*/
 
 import com.atlassian.jira.component.ComponentAccessor
 import com.atlassian.jira.issue.Issue 

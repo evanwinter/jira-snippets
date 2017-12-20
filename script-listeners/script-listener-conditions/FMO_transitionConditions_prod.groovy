@@ -1,6 +1,6 @@
 /*
 *	@name 	FMO_transitionConditions_prod.groovy
-*	@type 	Script Condition
+*	@type 	Script Listener (Condition)
 *	@brief 	Determine if an issue should be allowed to transition to a given status
 *			by checking to see if the current Issue Type exists in that status's
 *			corresponding String array.

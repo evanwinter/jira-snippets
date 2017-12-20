@@ -7,8 +7,6 @@
 import com.atlassian.jira.issue.Issue
 import com.atlassian.jira.ComponentManager
 import com.atlassian.jira.component.ComponentAccessor
-import com.atlassian.jira.issue.comments.CommentManager
-import com.atlassian.jira.user.util.UserManager
 import org.apache.log4j.Logger
 import org.apache.log4j.Level
 

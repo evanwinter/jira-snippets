@@ -1,7 +1,7 @@
 /*
-*	@name 	AT_raiseOnBehalfOf_prod.groovy
+*	@name 	FES_raiseOnBehalfOf_prod.groovy
 *	@type		Post function	
-*	@brief 	Sets the user in custom field "Raise on behalf of" as Reporter, 
+*	@brief 	Sets the user in custom field "Primary User" as Reporter, 
 *					and adds the initial Reporter as a Request Participant.
 */
 
@@ -20,11 +20,12 @@ ApplicationUser currentUser = ComponentAccessor.getJiraAuthenticationContext().g
 MutableIssue thisIssue = issue
 
 def requestParticipantsField = ComponentAccessor.getCustomFieldManager().getCustomFieldObject("customfield_10600")
-def raiseOnBehalfOfField = ComponentAccessor.getCustomFieldManager().getCustomFieldObject("customfield_12131")
+def primaryUserField = ComponentAccessor.getCustomFieldManager().getCustomFieldObject("customfield_10913")
 
 ApplicationUser thisReporter = thisIssue.getReporter()
-ApplicationUser newReporter = thisIssue.getCustomFieldValue(raiseOnBehalfOfField) as ApplicationUser
+ApplicationUser newReporter = thisIssue.getCustomFieldValue(primaryUserField) as ApplicationUser
 
+/* If Primary User field isn't set, exit and do nothing */
 if (!newReporter) { return "No new reporter specified." }
 
 ArrayList<ApplicationUser> requestParticipants = []
@@ -32,7 +33,7 @@ requestParticipants.add(thisReporter)
 
 thisIssue.setCustomFieldValue(requestParticipantsField, requestParticipants)
 thisIssue.setReporter(newReporter)
-thisIssue.setCustomFieldValue(raiseOnBehalfOfField, null)
+thisIssue.setCustomFieldValue(primaryUserField, null)
 
 try {
 	ComponentAccessor.getIssueManager().updateIssue(

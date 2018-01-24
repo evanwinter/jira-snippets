@@ -11,6 +11,9 @@ import com.atlassian.jira.event.type.EventDispatchOption
 import com.atlassian.jira.issue.search.SearchProvider
 import com.atlassian.jira.jql.parser.JqlQueryParser
 import com.atlassian.jira.web.bean.PagerFilter
+import com.atlassian.jira.issue.label.LabelManager
+import com.atlassian.jira.issue.label.Label
+import java.util.Set
 
 /* Debugging */
 import org.apache.log4j.Logger
@@ -27,18 +30,22 @@ def desiredIssueType = ComponentAccessor.issueTypeSchemeManager.getIssueTypesFor
 }
 
 // Search for issues using a JQL query.
-def query = jqlQueryParser.parseQuery("project = AT and issuetype not in ('ATW Rooms', 'ATW Equipment', 'ATW Jobs', 'AT')")
+def query = jqlQueryParser.parseQuery("project = AT and issuetype = 'ATW Equipment' and brand is not empty")
 def results = searchProvider.search(query, user, PagerFilter.getUnlimitedFilter())
 log.debug("Total issues: ${results.total}")
 
 results.getIssues().each {documentIssue ->
     
     def issue = issueManager.getIssueObject(documentIssue.id)
+    def brand = issue.getCustomFieldValue(ComponentAccessor.getCustomFieldManager().getCustomFieldObject('customfield_12116'))
+    
+    def brandLabelField = ComponentAccessor.getCustomFieldManager().getCustomFieldObject('customfield_12303')
+    Set<Label> brandLabelValue = (ComponentAccessor.getComponent(LabelManager.class).getLabels(issue.id, 12303 as Long))
+    brandLabelValue.add(brand)
+    
+    log.debug brandLabelValue
 
     // Make changes to each issue here.
-    issue.setIssueType(desiredIssueType)
-    log.debug('Set issue type to AT on ' + issue.getKey())
-    //storeChanges(issue, user)   
 }
 
 // Persist changes in the database.

@@ -1,31 +1,43 @@
-import com.atlassian.jira.component.ComponentAccessor
-import com.atlassian.jira.bc.issue.search.SearchService
-import com.atlassian.jira.user.ApplicationUser
-import com.atlassian.jira.issue.MutableIssue
-import com.atlassian.jira.web.bean.PagerFilter
+/*
+*	@name	jqlSearch.groovy
+*	@type	script snippet
+*	@brief	Gets all issues which match a JQL query and print out each summary.
+*/
 
-/* Debugging */
+import com.atlassian.jira.component.ComponentAccessor
+import com.atlassian.jira.user.ApplicationUser
+import com.atlassian.jira.issue.search.SearchProvider
+import com.atlassian.jira.issue.IssueManager
+import com.atlassian.jira.jql.parser.JqlQueryParser
+import com.atlassian.jira.web.bean.PagerFilter
+import com.atlassian.jira.issue.MutableIssue
 import org.apache.log4j.Logger
 def log = Logger.getLogger("com.acme.XXX")
 
+JqlQueryParser jqlQueryParser = ComponentAccessor.getComponent(JqlQueryParser)
+SearchProvider searchProvider = ComponentAccessor.getComponent(SearchProvider)
+IssueManager issueManager = ComponentAccessor.getIssueManager()
 ApplicationUser user = ComponentAccessor.getJiraAuthenticationContext().getLoggedInUser()
 
-def searchQuery = 'project = AT and issuetype = "ATW Equipment"'
-SearchService searchService = ComponentAccessor.getComponent(SearchService.class)
+// Replace this string with your desired JQL query.
+String queryString = "assignee = currentUser()"
 
-def issues = []
+def query = jqlQueryParser.parseQuery(queryString)
+def results = searchProvider.search(query, user, PagerFilter.getUnlimitedFilter())
 
-SearchService.ParseResult parseResult = searchService.parseQuery(user, searchQuery)
-if (parseResult.isValid()) {
-    def searchResult = searchService.search(user, parseResult.getQuery(), PagerFilter.getUnlimitedFilter())
-    issues = searchResult.issues.collect {ComponentAccessor.getIssueManager().getIssueObject(it.id)}
-    
-    for (issue in issues) {
-        log.debug(issue.getKey())
-    }
-    
-    log.debug (issues.size() + ' issues')
-    
+log.debug("Returned ${results.total} issues that matched the query.")
+
+if (results.total > 0) {
+	results.getIssues().each {documentIssue ->
+	    MutableIssue issue = issueManager.getIssueObject(documentIssue.id)
+	    
+		// Do something with each issue.
+		log.debug("Summary: ${issue.summary}")
+
+	}
 } else {
-    log.error('Invalid JQL: ' + searchQuery)
+	log.debug('No issues matched this query')
+	return "No issues matched this query. Please try another or contact a JIRA administrator."
 }
+
+return "Execution completed without error."

@@ -32,3 +32,4 @@ def mergingIssueComments = ComponentAccessor.getCommentManager().getComments(mer
 for (comment in mergingIssueComments) {
     log.debug comment.getBody()
 }
+

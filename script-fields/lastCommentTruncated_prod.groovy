@@ -23,7 +23,7 @@ if (!comments || comments.size() == 0) { return }
 
 def lastComment = comments.last()
 def lastCommentClean = lastComment.body.replace("\n", " ")
-def commenterName = lastComment.getAuthorApplicationUser().displayName
+def author = lastComment.getAuthorApplicationUser().displayName
 
 boolean isTooLong = (lastComment.body.length() > TARGET_LENGTH)
 
@@ -31,6 +31,6 @@ def newComment = (isTooLong) ? lastCommentClean.substring(START, TARGET_LENGTH) 
 
 ComponentAccessor.getRendererManager().getRenderedContent(
 	"atlassian-wiki-renderer",
-	"*" + commenterName + "*: " + newComment,
+	"*" + author + "*: " + newComment,
 	thisIssue.issueRenderContext
 )

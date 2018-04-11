@@ -22,7 +22,6 @@ MutableIssue thisIssue = event.issue as MutableIssue
 def loggedInUser = ComponentAccessor.getJiraAuthenticationContext().getLoggedInUser()
 def fmoAdmin = ComponentAccessor.getUserManager().getUserByName("fmoadmin")
 
-// If changed to Unassigned, do nothing
 def assignee = thisIssue.getAssignee()
 if (!assignee) { return }
 
@@ -36,7 +35,6 @@ if (groupManager.isUserInGroup(assignee, 'fmo-students')) {
     }
 }
 
-// Create the comment and add it to the issue
 def comment = "This issue has been assigned to [~$assignee.username]."
 try {
 	ComponentAccessor.getCommentManager().create(thisIssue, fmoAdmin, comment, true)	
@@ -44,10 +42,11 @@ try {
 	log.debug "Error adding comment: " + e
 }
 
-// Update the issue again to ensure Jonathan Wolf is a Watcher
 try {
 	ComponentAccessor.getIssueManager().updateIssue(loggedInUser, thisIssue, EventDispatchOption.ISSUE_UPDATED, false)
 } catch (Exception e) {
 	log.debug "Exception: " + e
 	return 'An error occured. Please contact your JIRA administrator.'
 }
+
+

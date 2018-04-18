@@ -13,7 +13,7 @@ if (!thisIssue.isSubTask()) { return "Not a subtask - don't copy comment."}
 
 Issue parentIssue = thisIssue.getParentObject()
 
-def commentManager = ComponentAccessor.getCommentManager()
+CommentManager commentManager = ComponentAccessor.getCommentManager()
 def commentToCopy = commentManager.getLastComment(thisIssue)
 
 if (commentToCopy) {

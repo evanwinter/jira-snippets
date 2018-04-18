@@ -40,12 +40,15 @@ def isInternal = { Comment c ->
 
 def commentManager = ComponentAccessor.getCommentManager()
 def watcherManager = ComponentAccessor.getWatcherManager()
-def jonathan = ComponentAccessor.getUserManager().getUserByName('jwolf5')
-log.debug jonathan
-def fmoAdmin = ComponentAccessor.getUserManager().getUserByName("fmoadmin")
-log.debug fmoAdmin
+def watcher = ComponentAccessor.getUserManager().getUserByName('jwolf5')
+def admin = ComponentAccessor.getUserManager().getUserByName("fmoadmin")
+
+log.debug "User to add as watcher: ${watcher}"
+log.debug "User to make action: ${admin}"
 
 if (comment) {
+
+	// Count number of PUBLIC COMMENTS
 	def numComments = 0
 	def comments = commentManager.getComments(event.issue)
 	for (c in comments) {
@@ -54,13 +57,18 @@ if (comment) {
 		}
 	}
 
+	log.debug "Number of comments: ${numComments}"
+
+	// If 4 or more PUBLIC COMMENTS and the selected user isn't already a Watcher,
+	// add them as a Watcher.
 	if (numComments >= 4) {
-		if (!watcherManager.isWatching(jonathan, issue)) {
-			log.debug "Adding watcher."
-			watcherManager.startWatching(jonathan, issue)
+		if (!watcherManager.isWatching(watcher, issue)) {
+			log.debug "Adding ${watcher} as a Watcher."
+			watcherManager.startWatching(watcher, issue)
 			try {
-				ComponentAccessor.getIssueManager().updateIssue(fmoAdmin, issue, EventDispatchOption.ISSUE_UPDATED, false)
-			} 
+				ComponentAccessor.getIssueManager().updateIssue(admin, issue, EventDispatchOption.ISSUE_UPDATED, false)
+				return true;
+			}
 			catch (Exception e) {
 				return 'An error occurred: ' + e + '\n\nPlease contact your JIRA administrator.'
 			}

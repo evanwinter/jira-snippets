@@ -1,10 +1,10 @@
 /*
 *	@name 	AT_mergeIssueIntoExisting_prod.groovy
-*	@type	Post function
+*	@type		Post function
 *	@brief 	Merges current issue into target issue by appending the current issue's
-*			description, comments and Reporter to the target issue's corresponding
-*			fields. The current issue's Reporter is added to the target issue as
-*			a Request Participant.
+*					description, comments and Reporter to the target issue's corresponding
+*					fields. The current issue's Reporter is added to the target issue as
+*					a Request Participant.
 */
 
 import com.atlassian.jira.component.ComponentAccessor
@@ -29,6 +29,11 @@ ApplicationUser loggedInUser = ComponentAccessor.getJiraAuthenticationContext().
 
 def linkedIssues = ComponentAccessor.getIssueLinkManager().getOutwardLinks(thisIssue.getId())
 MutableIssue mainIssue = linkedIssues[0].getDestinationObject() as MutableIssue
+
+if (mainIssue.getKey() == thisIssue.getKey()) {
+	log.debug "Can't merge with self."
+	return false
+}
 
 /* Merge descriptions (this -> main) */
 def mainDescription = mainIssue.getDescription()

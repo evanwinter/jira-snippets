@@ -1,8 +1,8 @@
 /*
 *	@name 	AT_raiseOnBehalfOf_prod.groovy
 *	@type		Post function	
-*	@brief 	Sets the user in custom field "Raise on behalf of" as Reporter, 
-*					and adds the initial Reporter as a Request Participant.
+*	@brief 	Adds initial Reporter to Request Participants field, and assigns user 
+* 				in "Raise on behalf of" field to the Reporter field.
 */
 
 import com.atlassian.jira.component.ComponentAccessor
@@ -15,12 +15,14 @@ import com.atlassian.jira.event.type.EventDispatchOption
 import org.apache.log4j.Logger
 def log = Logger.getLogger("com.acme.XXX")
 
-/* Initialize variables */
+def REQUEST_PARTICIPANTS_FIELD = "customfield_10600"
+def RAISE_ON_BEHALF_OF_FIELD = "customfield_12131"
+
 ApplicationUser currentUser = ComponentAccessor.getJiraAuthenticationContext().getLoggedInUser()
 MutableIssue thisIssue = issue
 
-def requestParticipantsField = ComponentAccessor.getCustomFieldManager().getCustomFieldObject("customfield_10600")
-def raiseOnBehalfOfField = ComponentAccessor.getCustomFieldManager().getCustomFieldObject("customfield_12131")
+def requestParticipantsField = ComponentAccessor.getCustomFieldManager().getCustomFieldObject(REQUEST_PARTICIPANTS_FIELD)
+def raiseOnBehalfOfField = ComponentAccessor.getCustomFieldManager().getCustomFieldObject(RAISE_ON_BEHALF_OF_FIELD)
 
 ApplicationUser thisReporter = thisIssue.getReporter()
 ApplicationUser newReporter = thisIssue.getCustomFieldValue(raiseOnBehalfOfField) as ApplicationUser

@@ -1,7 +1,7 @@
 /*
 *	@name	jqlSearch.groovy
 *	@type	script snippet
-*	@brief	Gets all issues which match a JQL query and print out each summary.
+*	@brief Gets all issues which match a JQL query and print out each summary.
 */
 
 import com.atlassian.jira.component.ComponentAccessor
@@ -36,8 +36,8 @@ if (results.total > 0) {
 
 	}
 } else {
-	log.debug('No issues matched this query')
-	return "No issues matched this query. Please try another or contact a JIRA administrator."
+	log.debug("No issues matched this query. Please try another or contact a JIRA administrator.")
+	return false
 }
 
-return "Execution completed without error."
+return true

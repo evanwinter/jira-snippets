@@ -1,5 +1,5 @@
 /*
-*	@name 	AT_raiseOnBehalfOf_prod.groovy
+*	@name 	AT_raiseOnBehalfOf.groovy
 *	@type		Post function	
 *	@brief 	Adds initial Reporter to Request Participants field, and assigns user 
 * 				in "Raise on behalf of" field to the Reporter field.
@@ -27,6 +27,7 @@ def raiseOnBehalfOfField = ComponentAccessor.getCustomFieldManager().getCustomFi
 ApplicationUser thisReporter = thisIssue.getReporter()
 ApplicationUser newReporter = thisIssue.getCustomFieldValue(raiseOnBehalfOfField) as ApplicationUser
 
+/* If "Raise on behalf of" field isn't set, exit and do nothing */
 if (!newReporter) { return "No new reporter specified." }
 
 ArrayList<ApplicationUser> requestParticipants = []

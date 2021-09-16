@@ -9,9 +9,9 @@ import requests
 #-----------------------------------------------------------------------------
 # Globals
 
-BASE_URL = "https://wiki.bus.wisc.edu/rest/api/content"
+BASE_URL = "https://example.com"
 
-VIEW_URL = "https://wiki.bus.wisc.edu/pages/viewpage.action?pageId="
+VIEW_URL = "https://example.com"
 
 
 def pprint(data):
